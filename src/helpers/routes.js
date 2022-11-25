@@ -1,35 +1,39 @@
 import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Routes, Navigate } from 'react-router-dom';
 
 export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
+
+    
   return (
-    <Outlet
-      {...rest}
-      render={() => {
-        if (!user) {
-            console.log("object")
-          return children;
-        }
 
-        if (user) {
-          return (
-            <Navigate
-              to={{
-                pathname: loggedInPath,
-              }}
-            />
-          );
-        }
+    !user ? children : <Navigate to={loggedInPath} replace={true} />
+    // <Routes
+    //   {...rest}
+    //   render={() => {
+    //     if (!user) {
+    //         console.log("object")
+    //       return children;
+    //     }
 
-        return null;
-      }}
-    />
+    //     if (user) {
+    //       return (
+    //         <Navigate
+    //           to={{
+    //             pathname: loggedInPath,
+    //           }}
+    //         />
+    //       );
+    //     }
+
+    //     return null;
+    //   }}
+    // />
   );
 }
 
 export function ProtectedRoute({ user, children, ...rest }) {
   return (
-    <Outlet
+    <Routes
       {...rest}
       render={({ location }) => {
         if (user) {
